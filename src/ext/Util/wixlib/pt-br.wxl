@@ -6,6 +6,7 @@
     <String Id="msierrUSRFailedUserCreatePswd" Overridable="yes" Value="Falha ao criar usuário devido a senha inválida. ([2] [3] [4] [5])" />
     <String Id="msierrUSRFailedUserGroupAdd" Overridable="yes" Value="Falha ao adicionar o usuário ao grupo. ([2] [3] [4] [5])" />
     <String Id="msierrUSRFailedUserCreateExists" Overridable="yes" Value="Falha ao criar o usuário, porque ele já existe. ([2] [3] [4] [5])" />
+
     <String Id="msierrGRPFailedGroupCreate" Overridable="yes" Value="Falha ao criar grupo. ([2]   [3]   [4]   [5])" />
     <String Id="msierrGRPFailedGroupGroupAdd" Overridable="yes" Value="Falha ao adicionar o grupo ao grupo. ([2] [3] [4] [5])" />
     <String Id="msierrGRPFailedGroupCreateExists" Overridable="yes" Value="Falha ao criar o grupo, porque ele já existe. ([2]   [3]   [4]   [5])" />
