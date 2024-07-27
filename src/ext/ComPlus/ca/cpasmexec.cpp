@@ -64,10 +64,6 @@ typedef HRESULT (__stdcall *CreateAssemblyCacheFunc)(IAssemblyCache **ppAsmCache
 
 
 // RegistrationHelper related declarations
-
-static const GUID CLSID_RegistrationHelper =
-    { 0x89a86e7b, 0xc229, 0x4008, { 0x9b, 0xaa, 0x2f, 0x5c, 0x84, 0x11, 0xd7, 0xe0 } };
-
 enum eInstallationFlags {
     ifConfigureComponentsOnly = 16,
     ifFindOrCreateTargetApplication = 4,
@@ -729,7 +725,12 @@ static HRESULT GetRegistrationHelper(
 
     if (!gpiRegHlp)
     {
+        CLSID CLSID_RegistrationHelper{};
+        hr = ::CLSIDFromProgID(OLESTR("System.EnterpriseServices.RegistrationHelper"), &CLSID_RegistrationHelper);
+        ExitOnFailure(hr, "Failed to identify CLSID for 'System.EnterpriseServices.RegistrationHelper'");
         // create registration helper object
+        // This will fail with Class not registered if only .NET Framework 4.5 is installed, it appears to require
+        // .NET 3 to get registered into the system correctly.
         hr = ::CoCreateInstance(CLSID_RegistrationHelper, NULL, CLSCTX_ALL, IID_IDispatch, (void**)&gpiRegHlp); 
         ExitOnFailure(hr, "Failed to create registration helper object");
     }
@@ -979,7 +980,7 @@ static HRESULT RegisterNativeAssembly(
     ExitOnNull(bstrTlbPath, hr, E_OUTOFMEMORY, "Failed to allocate BSTR for tlb path");
 
     bstrPSDllPath = ::SysAllocString(pAttrs->pwzPSDllPath ? pAttrs->pwzPSDllPath : L"");
-    ExitOnNull(bstrPSDllPath, hr, E_OUTOFMEMORY, "Failed to allocate BSTR for tlb path");
+    ExitOnNull(bstrPSDllPath, hr, E_OUTOFMEMORY, "Failed to allocate BSTR for proxy/stub dll path");
 
     // get catalog
     hr = CpiExecGetAdminCatalog(&piCatalog);
